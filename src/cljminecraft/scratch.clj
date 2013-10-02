@@ -155,3 +155,11 @@
 
 (defn burn-monolith-at-loc [loc]
   (create-monolith-block loc MONOLITH-X MONOLITH-HEIGHT MONOLITH-Z Material/FIRE 0))
+
+(defn rainbow-at-loc [loc]
+  (let [length 40
+        half (/ length 2)]
+    (doseq [x (range (* -1 half) length)
+           :let [y (+ half (int (* -0.1 x x)))
+                 loc (location-delta loc {:x x :y y})]]
+     (create-block-at-loc loc Material/STONE))))
