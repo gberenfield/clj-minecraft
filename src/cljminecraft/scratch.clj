@@ -133,14 +133,25 @@
           :let [step-loc (location-delta loc {:x x :y h :z h})]]
     (create-stone-at-loc step-loc)))
 
-(defn create-monolith-block [loc dx dy dz]
-  (doseq [dx (range dx)
-          dy (range dy)
-          dz (range dz)
-          :let [loc (location-delta loc {:x dx :y dy :z dz})]]
-    (println "creating block at " dx dy dz)
-    (create-block-at-loc loc Material/OBSIDIAN)
-    (Thread/sleep 200)))
+(defn create-monolith-block
+  ([loc dx dy dz block-type sleep-time]
+     (doseq [dx (range dx)
+             dy (range dy)
+             dz (range dz)
+             :let [loc (location-delta loc {:x dx :y dy :z dz})]]
+       (println "monolith block at " dx dy dz)
+       (create-block-at-loc loc block-type)
+       (when (< 0 sleep-time)
+         (Thread/sleep sleep-time))))
+  ([loc dx dy dz]
+     (create-monolith-block loc dx dy dz Material/OBSIDIAN 250)))
+
+(def MONOLITH-X 6)
+(def MONOLITH-HEIGHT 10)
+(def MONOLITH-Z 2)
 
 (defn create-monolith-at-loc [loc]
-  (create-monolith-block loc 6 10 2))
+  (create-monolith-block loc MONOLITH-X MONOLITH-HEIGHT MONOLITH-Z))
+
+(defn burn-monolith-at-loc [loc]
+  (create-monolith-block loc MONOLITH-X MONOLITH-HEIGHT MONOLITH-Z Material/FIRE 0))
