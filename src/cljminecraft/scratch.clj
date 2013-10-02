@@ -103,20 +103,26 @@
   (first (keep-indexed #(when (= (first %2) year) %1) data)))
 
 (defn create-birth-graph-at-loc
-  ([loc year]
+  ([loc year block-type]
      (let [year-idx (index-of-year year sorted-birth-data)]
       (doseq [dx (range 0 (count rates))
               :let [loc (location-delta loc {:x dx})
-                    block-type (if (= dx year-idx)
+                    b-type (if (= dx year-idx)
                                  Material/ICE
-                                 Material/STONE)]]
-        (create-block-tower-at-loc loc (nth rates dx) block-type))))
+                                 block-type)]]
+        (create-block-tower-at-loc loc (nth rates dx) b-type))))
+  ([loc year]
+     (create-birth-graph-at-loc loc year Material/STONE))
   ([loc]
      (create-birth-graph-at-loc loc 0)))
 
 (defn create-birth-graph-at-target-of-player [player]
   (let [loc (target-loc-of-player player)]
     (create-birth-graph-at-loc loc)))
+
+(defn burn-birth-graph-at-loc
+  [loc]
+  (create-birth-graph-at-loc loc 0 Material/FIRE))
 
 (defn create-staircase-at-loc [loc height]
   (doseq [h (range height)
