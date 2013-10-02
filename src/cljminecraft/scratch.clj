@@ -20,7 +20,10 @@
 ;; or, use $ lein repl :connect 4005
  
 ;; C-c C-k to eval this buffer
- 
+
+;; You probably want to /gamemode creative
+;; in order to get all the blocks you need.
+
 ;;(in-ns 'cljminecraft.core)
 ;;(in-ns 'cljminecraft.scratch)
 ;;(ev/find-event "break")
@@ -129,3 +132,15 @@
           x (range 3)
           :let [step-loc (location-delta loc {:x x :y h :z h})]]
     (create-stone-at-loc step-loc)))
+
+(defn create-monolith-block [loc dx dy dz]
+  (doseq [dx (range dx)
+          dy (range dy)
+          dz (range dz)
+          :let [loc (location-delta loc {:x dx :y dy :z dz})]]
+    (println "creating block at " dx dy dz)
+    (create-block-at-loc loc Material/OBSIDIAN)
+    (Thread/sleep 200)))
+
+(defn create-monolith-at-loc [loc]
+  (create-monolith-block loc 6 10 2))
