@@ -14,3 +14,17 @@ test
 *.sh
 /deploy
 /.settings/ccw.repl.cmdhistory.prefs
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+.nrepl-port
+
+# Mac
+.DS_Store

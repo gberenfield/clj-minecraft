@@ -95,37 +95,37 @@
  
 (defn create-stone-at-loc-of-player [player]
   (create-stone-at-loc (.getLocation player)))
- 
-(def BIRTH-DATA-FILE "/Users/koba/work/MinecraftMods/clj-minecraft/data/birth.json")
-(def birth-data (ch/parse-string (slurp BIRTH-DATA-FILE)))
-(def transformed-birth-data (reduce #(assoc % (Integer. (%2 "year")) (Float. (%2 "rate_per_1000_resident_population"))) {} birth-data))
-;;(def indexed-birth-data (map-indexed (comp vec flatten vector) transformed-birth-data))
-(def sorted-birth-data (sort-by first (vec transformed-birth-data)))
-(def rates (mapv second sorted-birth-data))
-(defn index-of-year [year data]
-  (first (keep-indexed #(when (= (first %2) year) %1) data)))
 
-(defn create-birth-graph-at-loc
-  ([loc year block-type]
-     (let [year-idx (index-of-year year sorted-birth-data)]
-      (doseq [dx (range 0 (count rates))
-              :let [loc (location-delta loc {:x dx})
-                    b-type (if (= dx year-idx)
-                                 Material/ICE
-                                 block-type)]]
-        (create-block-tower-at-loc loc (nth rates dx) b-type))))
-  ([loc year]
-     (create-birth-graph-at-loc loc year Material/STONE))
-  ([loc]
-     (create-birth-graph-at-loc loc 0)))
+(comment
+  (def BIRTH-DATA-FILE "/Users/koba/work/MinecraftMods/clj-minecraft/data/birth.json")
+  (def transformed-birth-data (reduce #(assoc % (Integer. (%2 "year")) (Float. (%2 "rate_per_1000_resident_population"))) {} birth-data))
+  ;;(def indexed-birth-data (map-indexed (comp vec flatten vector) transformed-birth-data))
+  (def sorted-birth-data (sort-by first (vec transformed-birth-data)))
+  (def rates (mapv second sorted-birth-data))
+  (defn index-of-year [year data]
+    (first (keep-indexed #(when (= (first %2) year) %1) data)))
 
-(defn create-birth-graph-at-target-of-player [player]
-  (let [loc (target-loc-of-player player)]
-    (create-birth-graph-at-loc loc)))
+  (defn create-birth-graph-at-loc
+    ([loc year block-type]
+       (let [year-idx (index-of-year year sorted-birth-data)]
+         (doseq [dx (range 0 (count rates))
+                 :let [loc (location-delta loc {:x dx})
+                       b-type (if (= dx year-idx)
+                                Material/ICE
+                                block-type)]]
+           (create-block-tower-at-loc loc (nth rates dx) b-type))))
+    ([loc year]
+       (create-birth-graph-at-loc loc year Material/STONE))
+    ([loc]
+       (create-birth-graph-at-loc loc 0)))
 
-(defn burn-birth-graph-at-loc
-  [loc]
-  (create-birth-graph-at-loc loc 0 Material/FIRE))
+  (defn create-birth-graph-at-target-of-player [player]
+    (let [loc (target-loc-of-player player)]
+      (create-birth-graph-at-loc loc)))
+
+  (defn burn-birth-graph-at-loc
+    [loc]
+    (create-birth-graph-at-loc loc 0 Material/FIRE)))
 
 (defn create-staircase-at-loc [loc height]
   (doseq [h (range height)
@@ -163,3 +163,12 @@
            :let [y (+ half (int (* -0.1 x x)))
                  loc (location-delta loc {:x x :y y})]]
      (create-block-at-loc loc Material/STONE))))
+
+(defn tnt-lightcycle
+  ([player]
+     (tnt-lightcycle player 100 50 Material/TNT))
+  ([player num-blocks sleep-time mat]
+     (future
+       (doseq [cycles (range num-blocks)]
+         (create-block-at-loc (.getLocation player) mat)
+         (Thread/sleep sleep-time)))))
