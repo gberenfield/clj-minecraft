@@ -45,6 +45,7 @@ Change time of day to dawn:
 ### HALP
 * See the [original project README](https://github.com/mudphone/clj-minecraft/blob/master/README.md) for help.
 * Also, see [Bukkit API docs](http://jd.bukkit.org/rb/doxygen/) for what's possible.
+* Bukkit docs on materials: http://jd.bukkit.org/rb/apidocs/org/bukkit/Material.html
 * Don't forget, in the REPL you can eval an arbitrary Clojure ns, so you have the full power of Clojure at your fingertips!
 
 ## LICENSE
