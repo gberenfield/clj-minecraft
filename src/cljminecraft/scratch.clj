@@ -169,6 +169,9 @@
      (tnt-lightcycle player 100 50 Material/TNT))
   ([player num-blocks sleep-time mat]
      (future
-       (doseq [cycles (range num-blocks)]
-         (create-block-at-loc (.getLocation player) mat)
-         (Thread/sleep sleep-time)))))
+       (let [start (.getLocation player)]
+         (doseq [cycles (range num-blocks)]
+           (create-block-at-loc (.getLocation player) mat)
+           (Thread/sleep sleep-time))
+         (if (= Material/TNT mat)
+           (create-block-at-loc start Material/FIRE))))))
