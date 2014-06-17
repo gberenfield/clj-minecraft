@@ -42,6 +42,12 @@ Change to invincible / creative mode:
 Change time of day to dawn: 
 * `time set 0`
 
+Access Inventory:
+`e`
+
+Access Console:
+`t`
+
 ### HALP
 * See the [original project README](https://github.com/mudphone/clj-minecraft/blob/master/README.md) for help.
 * Also, see [Bukkit API docs](http://jd.bukkit.org/rb/doxygen/) for what's possible.
