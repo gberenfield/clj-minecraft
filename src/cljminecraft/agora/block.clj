@@ -8,6 +8,7 @@
    [org.bukkit Material]
    [org.bukkit.util BlockIterator]))
 
+(def AIR Material/AIR)
 (def ICE Material/ICE)
 (def OBSIDIAN Material/OBSIDIAN)
 (def STONE Material/STONE)

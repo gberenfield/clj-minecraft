@@ -3,6 +3,7 @@
    [cljminecraft.core :as core]
    [cljminecraft.agora.block :as block]
    [cljminecraft.agora.chat :as chat]
+   [cljminecraft.agora.command :as command]
    [cljminecraft.agora.grid :as grid]
    [cljminecraft.agora.location :as location]
    [cljminecraft.agora.permission :as permission]
