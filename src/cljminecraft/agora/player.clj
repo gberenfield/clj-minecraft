@@ -2,6 +2,7 @@
   (:require
    [cljminecraft.bukkit :as bkt]
    [cljminecraft.agora.chat :as chat]
+   [cljminecraft.agora.location :as location]
    [cljminecraft.agora.permission :as permission])
   (:import
    [org.bukkit GameMode]))
@@ -38,3 +39,26 @@
   []
   (doseq [p (players)]
     (godify-player p)))
+
+(defn location
+  [p]
+  (location/location p))
+
+(defn pointing-up?
+  [p]
+  (let [{:keys [pitch]} (location p)]
+    (> 0 pitch)))
+
+(defn pointing-down?
+  [p]
+  (let [{:keys [pitch]} (location p)]
+    (> 0 pitch)))
+
+(defn pointing-side?
+  [p]
+  (and (not (pointing-up? p))
+       (not (pointing-down? p))))
+
+(defn target-loc
+  [p]
+  (.getLocation (.getTargetBlock p nil 256)))

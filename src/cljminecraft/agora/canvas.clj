@@ -1,9 +1,12 @@
 (ns cljminecraft.agora.canvas
   (:require
    [cljminecraft.core :as core]
+   [cljminecraft.agora.block :as block]
    [cljminecraft.agora.chat :as chat]
    [cljminecraft.agora.permission :as permission]
    [cljminecraft.agora.player :as player])
   (:import
-   [org.bukkit Location Material Bukkit]))
+   [org.bukkit Location Material Bukkit]
+   [org.bukkit.util BlockIterator]))
+
 
