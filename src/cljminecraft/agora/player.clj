@@ -24,8 +24,8 @@
     (.setGameMode p m)))
 
 (defn give-creative
-  ([p]
-     (give-gamemode p GameMode/CREATIVE)))
+  [p]
+  (give-gamemode p GameMode/CREATIVE))
 
 (defn godify-player
   [p]
