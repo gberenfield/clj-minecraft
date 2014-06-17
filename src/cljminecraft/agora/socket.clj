@@ -14,11 +14,11 @@
 ;; { :name "datomic"
 ;;   :type :db-txn
 ;;   :msg
-;;    { :x 33,
+;;    { :x 33
 ;;      :y 16
 ;;      :point 277076930201398
 ;;      :magnitude 84.64807137846947
-;;      :grid-name "agora"}}
+;;      :grid-name "agora" }}
 
 (defn open-socket
   []

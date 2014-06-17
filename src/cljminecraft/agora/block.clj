@@ -8,15 +8,22 @@
    [org.bukkit Material]
    [org.bukkit.util BlockIterator]))
 
+(def ICE Material/ICE)
+(def OBSIDIAN Material/OBSIDIAN)
+(def STONE Material/STONE)
+(def TNT Material/TNT)
+(def WOOL Material/WOOL)
+
 (defn make-block
   [{:keys [bkt-loc block-type]}]
-  (-> (.getBlock bkt-loc)
-      (.setType block-type)))
+  (let [b (.getBlock bkt-loc)]
+    (.setType b block-type)
+    b))
 
 (defn make-stone
   [bkt-loc]
   (make-block {:loc bkt-loc
-               :block-type Material/STONE}))
+               :block-type STONE}))
 
 (defn block-type
   [b] (.getType b))
@@ -47,9 +54,7 @@
        (loop [bi (BlockIterator. p 0)]
          (if-let [b (and (.hasNext bi)
                          (.next bi))]
-           (do
-             (log/info "%s" b)
-            (if (not (search-flipped? (location b)))
-              (if (transparent? b)
-                (recur bi)
-                b)))))))
+           (if (not (search-flipped? (location b)))
+             (if (transparent? b)
+               (recur bi)
+               b))))))
