@@ -6,7 +6,8 @@
                  [org.bukkit/bukkit           "1.6.4-R2.0"]
                  [clojure-complete            "0.2.3"]
                  [cheshire                    "5.2.0"]
-                 [org.reflections/reflections "0.9.8"]]
+                 [org.reflections/reflections "0.9.8"]
+                 [http.async.client "0.5.2"]]
   :profiles {:dev {:dependencies []}}
   :javac-options [ "-d" "classes/" "-source" "1.6" "-target" "1.6"]
   :java-source-paths ["javasrc"]
