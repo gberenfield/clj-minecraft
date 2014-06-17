@@ -34,7 +34,7 @@
   (give-creative p)
   (chat/say p "I am in creative mode now."))
 
-(defn godify-player
+(defn godify-players
   []
   (doseq [p (players)]
     (godify-player p)))
