@@ -58,7 +58,3 @@
   [p]
   (and (not (pointing-up? p))
        (not (pointing-down? p))))
-
-(defn target-loc
-  [p]
-  (.getLocation (.getTargetBlock p nil 256)))
