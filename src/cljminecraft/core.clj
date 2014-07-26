@@ -11,7 +11,8 @@
             [cljminecraft.recipes :as r]
             [cljminecraft.items :as i]
             [cljminecraft.files]
-            [clojure.tools.nrepl.server :refer (start-server stop-server)]))
+            [clojure.tools.nrepl.server :refer (start-server stop-server)]
+            [cljminecraft.simples :as sim]))
 
 (def repl-handle (atom nil))
 
@@ -51,7 +52,6 @@
        (if msg (log/info msg))))))
 
 (defonce clj-plugin (atom nil))
-
 (defn repl-command [sender cmd & [port]]
   (log/info "Running repl command with %s %s" cmd port)
   (case cmd
@@ -96,6 +96,7 @@
   (plr/permission-detach-all!))
 
 ;; cljminecraft specific setup
+
 (defn start
   "onEnable cljminecraft"
   [plugin]
@@ -105,8 +106,10 @@
   (cmd/register-command @clj-plugin "clj.addevent" #'addevent-command :event :string)
   (cmd/register-command @clj-plugin "clj.spawnentity" #'spawn-command :entity)
   (cmd/register-command @clj-plugin "clj.permission" #'permission-command :player :permission [:keyword [:allow :disallow :release]])
+
   (setup-permission-system plugin)
-  (start-repl-if-needed plugin))
+  (start-repl-if-needed plugin)
+  )
 
 (defn stop
   "onDisable cljminecraft"
@@ -129,6 +132,7 @@
         (resolved plugin))
       )
     )
+  (sim/start plugin) ; loading my 'simples' plugin junk directly... it works
   (log/info "Clojure started - %s" plugin)
   )
 
@@ -137,6 +141,7 @@
   [plugin]
   (when-let [resolved (resolve (symbol (str (.getName plugin) ".core/stop")))]
     (resolved plugin))
+  (sim/stop plugin) ; stopping my 'simples' plugin junk directly... it works
   (log/info "Clojure stopped - %s" plugin)
   ;the following line is for debugging purposes only, to be removed:
   (log/info "third Repl options: %s %s %s" (cfg/get-string plugin "repl.host") (cfg/get-int plugin "repl.port") (cfg/get-boolean plugin "repl.enabled"))

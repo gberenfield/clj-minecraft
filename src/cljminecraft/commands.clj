@@ -93,14 +93,14 @@
     (empty? (filter false? count-matched))))
 
 (defn command [f param-types sender command alias args]
-  (log/info "Running command %s" command)
+  ;; (log/info "Running command %s" command)
   (try
     (cond
      (not (check-arity f (count (concat [sender] args)))) (respond sender "Incorrect number of arguments for %s: %d" alias (count args))
      :else
      (let [converted (map (partial convert-type sender) param-types args)
            {:keys [msg] :as response} (apply f sender converted)]
-       (log/info "Responding with %s" response)
+       ;; (log/info "Responding with %s" response)
        (if msg (respond sender msg))))
     (catch RuntimeException e (.printStackTrace e) (respond sender "An error occurred with this command")))
   true)

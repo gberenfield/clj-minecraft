@@ -29,3 +29,7 @@ commands:
     description: Set a permission for a given player
     permission: clojure.permission
     usage: /<command> player permissionname (allow|disallow|release)
+  random:
+    description: Random # between 1-6
+    permission: clojure.random
+    usage: /<command>
